@@ -21,4 +21,19 @@
         android:title="@string/nav_settings"
         android:icon="@drawable/ic_settings"/>
 
+
+
+    <item
+        android:id="@+id/nav_details"
+        android:title="@string/nav_details"
+        android:icon="@drawable/ic_details"/>
+
+    <item
+        android:id="@+id/nav_website"
+        android:title="@string/nav_website" />
+
+    <item
+        android:id="@+id/nav_email"
+        android:title="@string/nav_email" />
+
 </menu>

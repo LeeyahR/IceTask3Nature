@@ -1,8 +1,8 @@
 package com.example.testapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -23,10 +23,10 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
         val navigationView = findViewById<NavigationView>(R.id.navigation_view)
 
-        // Set toolbar as action bar
+        // Set toolbar as ActionBar
         setSupportActionBar(toolbar)
 
-        // Hamburger toggle (connects toolbar + drawer)
+        // Connect drawer with hamburger icon
         val toggle = ActionBarDrawerToggle(
             this,
             drawerLayout,
@@ -38,17 +38,41 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        // Handle menu clicks
         navigationView.setNavigationItemSelectedListener { item ->
+
             when (item.itemId) {
-                else -> Toast.makeText(this, item.title, Toast.LENGTH_SHORT).show()
+
+                R.id.nav_gallery -> {
+                    startActivity(Intent(this, GalleryActivity::class.java))
+                }
+
+                R.id.nav_details -> {
+                    startActivity(Intent(this, DetailsActivity::class.java))
+                }
+
+                // OPEN WEBSITE
+                R.id.nav_website -> {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = android.net.Uri.parse("https://www.nationalgeographic.com")
+                    startActivity(intent)
+                }
+
+                // SEND EMAIL
+                R.id.nav_email -> {
+                    val intent = Intent(Intent.ACTION_SENDTO).apply {
+                        data = android.net.Uri.parse("mailto:")
+                        putExtra(Intent.EXTRA_EMAIL, arrayOf("natureapp@gmail.com"))
+                        putExtra(Intent.EXTRA_SUBJECT, "Nature Explorer Feedback")
+                    }
+                    startActivity(intent)
+                }
             }
 
             drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
 
-        // Modern back button handling (NO onBackPressed())
+        // Modern back button handling
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -60,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    // Optional: fixes toolbar icon click edge cases
+    // Optional safety override
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (item.itemId == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START)

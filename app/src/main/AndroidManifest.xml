@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestApp">
         <activity
+            android:name=".NatureAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".DetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GalleryActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
